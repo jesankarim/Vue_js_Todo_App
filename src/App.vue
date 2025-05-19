@@ -8,10 +8,7 @@ export default {}
     <div class="navbar-content">
       <RouterLink to="/" class="logo">MyApp</RouterLink>
 
-      <div class="search-group">
-        <input type="text" placeholder="Search..." class="search-input" />
-        <button class="search-btn">Search</button>
-      </div>
+      
 
       <nav class="nav-links">
         <RouterLink to="/" class="nav-link">Home</RouterLink>
@@ -52,29 +49,10 @@ export default {}
 }
 
 
-.search-group {
+
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex: 1;
-  max-width: 350px;
-}
-
-.search-input {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  background-color: #ecf0f1;
-  color: #2c3e50;
-  flex-grow: 1;
-  outline: none;
-  transition: box-shadow 0.3s;
-}
-
-.search-input:focus {
-  box-shadow: 0 0 0 2px #1abc9c;
-}
 
 .search-btn {
   background-color: #1abc9c;
@@ -88,7 +66,7 @@ export default {}
 }
 
 .search-btn:hover {
-  background-color: #159c84;
+  background-color: #0c7461;
 }
 
 .nav-links {
