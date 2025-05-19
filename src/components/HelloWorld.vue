@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { students } from '../Compossible/Data'
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 interface Student {
   id: number
@@ -11,6 +13,9 @@ interface Student {
 
 const userData = ref<Student[]>(JSON.parse(localStorage.getItem('students') || '[]'))
 
+const deleteMessage = ref('');
+
+// search start here
 const searchTerm = ref('')
 const searchKey = ref('')
 
@@ -27,6 +32,27 @@ const filteredStudents = computed(() => {
   )
 })
 
+// search end here 
+
+// delete start here 
+
+const handleDelete = (id: number) => {
+  userData.value = userData.value.filter(student => student.id !== id)
+localStorage.setItem('students', JSON.stringify(userData.value))
+
+
+// delete end here 
+
+// delete toast message start
+toast.success('Data Deleted Successfully!', {
+  autoClose: 100,
+  position: 'bottom-center',
+ 
+  
+  
+});
+}
+// delete toast message end
 
 function getCgpaClass(cgpa: number): string {
   if (cgpa > 3.5) {
@@ -60,7 +86,7 @@ function getCgpaClass(cgpa: number): string {
           <th>Name</th>
           <th>Subject</th>
           <th>CGPA</th>
-          <th>Action</th>
+          <th colspan="2">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -69,7 +95,8 @@ function getCgpaClass(cgpa: number): string {
           <td>{{ data.name }}</td>
           <td>{{ data.subject }}</td>
           <td :class="getCgpaClass(data.cgpa)">{{ data.cgpa }}</td>
-          <td>Edit</td>
+          <button class="edit-btn">Edit</button>
+          <button @click="handleDelete(data.id)" class="delete-btn">Delete</button>
         </tr>
       </tbody>
     </table>
@@ -135,6 +162,37 @@ function getCgpaClass(cgpa: number): string {
   border-top: 1px solid #eee;
   text-align: center;
 }
+.edit-btn,
+.delete-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: 500;
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  gap: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #28a745; /* Green */
+}
+
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn {
+  background-color: #dc3545; /* Red */
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
 
 .student-table tr:hover {
   background-color: #fafafa;
