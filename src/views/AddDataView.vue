@@ -17,35 +17,39 @@ const formObject = ref<Student>({
 });
 
 function submitForm() {
-  
-  students.push({ ...formObject.value });
+  const existingStudents: Student[] = JSON.parse(localStorage.getItem('students') || '[]');
+
+  const maxId = existingStudents.length
+    ? Math.max(...existingStudents.map(student => student.id))
+    : 0;
+
+  const newStudent: Student = {
+    ...formObject.value,
+    id: maxId + 1,
+  };
+
+  students.push(newStudent);
   localStorage.setItem('students', JSON.stringify(students));
 
-  
   formObject.value = {
     id: null,
     name: '',
     subject: '',
-    cgpa: null
+    cgpa: null,
   };
 
-  
-toast.success('✅ Form Submitted Successfully!', {
-  autoClose: 100000,
-  position: 'bottom-center',
- 
-  
-  
-});
+  toast.success('✅ Form Submitted Successfully!', {
+    autoClose: 3000,
+    position: 'bottom-center',
+  });
 
-
- 
   setTimeout(() => {
-     successMessage.value = '';
-     router.push('/data');
+    successMessage.value = '';
+    router.push('/data');
   }, 1000);
-
 }
+
+
 </script>
 
 <template>
@@ -56,10 +60,7 @@ toast.success('✅ Form Submitted Successfully!', {
     <p v-if="successMessage" class="success-msg">{{ successMessage }}</p>
 
     <form class="form-container" @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="id">ID</label>
-        <input type="text" id="id" v-model="formObject.id" required />
-      </div>
+     
 
       <div class="form-group">
         <label for="name">Name</label>
